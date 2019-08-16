@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button btn = (Button)findViewById(R.id.button);
-        this.textView = (TextView)findViewById(R.id.textView1);
+        textView = (TextView)findViewById(R.id.textView1);
         btn.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view)
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
                 // The user picked a contact.
                 // The Intent's data Uri identifies which contact was selected.
                 // Do something with the contact here (bigger example below)
+                textView.setText(data.getData().toString());
             }
         }
     }

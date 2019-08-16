@@ -29,7 +29,7 @@ public class ImageLabeling extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_labeling);
+        //setContentView(R.layout.activity_image_labeling);
         setUpLabeler(0.7f);
         dispatchTakePictureIntent();
     }
@@ -43,6 +43,7 @@ public class ImageLabeling extends AppCompatActivity {
 
         FirebaseVisionOnDeviceImageLabelerOptions options = new FirebaseVisionOnDeviceImageLabelerOptions.Builder()
                 .setConfidenceThreshold(threshold).build();
+
         this.labeler = FirebaseVision.getInstance().getOnDeviceImageLabeler(options);
     }
 
@@ -62,12 +63,20 @@ public class ImageLabeling extends AppCompatActivity {
                     public void onSuccess(List<FirebaseVisionImageLabel> labels) {
                         // Task completed successfully
                         // ...
-                        String label = labels.get(0).getText();
-                        Log.d("Result", label);
-                        Intent intent = new Intent();
-                        intent.putExtra(Data, label);
-                        setResult(RESULT_OK, intent);
-                        finish();
+                        if (labels.size() == 0)
+                        {
+                            Log.d("Result", "Null");
+                        }
+                        else
+                        {
+                            String label = labels.get(0).getText();
+                            Log.d("Result", label);
+                            Intent intent = new Intent();
+                            intent.putExtra(Data, label);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -87,7 +96,6 @@ public class ImageLabeling extends AppCompatActivity {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             Log.d("Message", "Processing");
             labeling(imageBitmap);
-
         }
     }
 }
